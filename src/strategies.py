@@ -49,13 +49,14 @@ class TitForTat(Strategy):
 class Tester(Strategy):
     name = "TESTER"
 
-    def reset(self):
-        self._round = 0
-
     def choose(self, own_history, opponent_history):
-        # TODO: remplacer par la définition exacte du cours.
-        self._round = len(own_history)
-        return Move.DEFECT if self._round == 0 else Move.COOPERATE
+        if not own_history:
+            return Move.DEFECT
+        if opponent_history[0] == Move.DEFECT:
+            return opponent_history[-1]
+        return (Move.COOPERATE, Move.COOPERATE, Move.DEFECT)[
+            (len(own_history) - 1) % 3
+        ]
 
 
 class Joss(Strategy):
@@ -66,9 +67,15 @@ class Joss(Strategy):
         self.defection_probability = defection_probability
 
     def choose(self, own_history, opponent_history):
-        if self.rng.random() < self.defection_probability:
+        tit_for_tat_move = (
+            Move.COOPERATE if not opponent_history else opponent_history[-1]
+        )
+        if (
+            tit_for_tat_move == Move.COOPERATE
+            and self.rng.random() < self.defection_probability
+        ):
             return Move.DEFECT
-        return Move.COOPERATE if not opponent_history else opponent_history[-1]
+        return tit_for_tat_move
 
 
 class Pavlov(Strategy):
