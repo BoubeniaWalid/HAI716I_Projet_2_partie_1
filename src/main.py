@@ -24,7 +24,7 @@ def build_strategies(tournament: str, seed: int):
         Tester(),
         Joss(rng),
     ]
-    if tournament == "extended":
+    if tournament in {"extended", "noise"}:
         strategies.extend([Pavlov(), AlwaysCooperate()])
     return strategies
 

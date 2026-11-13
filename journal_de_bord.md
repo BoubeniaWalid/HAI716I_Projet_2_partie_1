@@ -138,10 +138,41 @@ Pour chaque modification, respecter l'ordre : prédiction, exécution, comparais
 
 ### Modification A : bruit
 
-- Paramètres :
-- Prédiction avant exécution :
+- Paramètres : population étendue, 200 tours par partie, 5 parties par paire,
+  bruit de `5 %`, graine `42`.
+- Prédiction avant exécution : le bruit devrait réduire les scores des
+  stratégies coopératives, car une défection accidentelle peut provoquer une
+  riposte de TIT-FOR-TAT ou de JOSS. PAVLOV pourrait être plus robuste, car
+  elle peut rétablir la coopération après une erreur. ALL-D devrait être moins
+  affectée par le bruit puisqu'elle joue déjà toujours D.
 - Résultats :
-- Analyse :
+
+  Commande exécutée :
+
+  ```powershell
+  py -m src.main --tournament noise --seed 42 --noise 0.05
+  ```
+
+  | Rang | Stratégie | Score total |
+  |---:|---|---:|
+  | 1 | ALL-D | 17191 |
+  | 2 | JOSS | 15310 |
+  | 3 | TESTER | 15231 |
+  | 4 | PAVLOV | 15144 |
+  | 5 | RANDOM | 15120 |
+  | 6 | TIT-FOR-TAT | 14994 |
+  | 7 | ALL-C | 12121 |
+
+  La commande donne le même classement lorsqu'elle est relancée avec la même
+  graine.
+
+- Analyse : le bruit modifie fortement le classement des stratégies
+  réactives. TIT-FOR-TAT passe de la troisième à la sixième place, car une
+  défection accidentelle peut déclencher une riposte puis une alternance de
+  représailles. JOSS devient deuxième, ce qui montre que sa défection
+  aléatoire peut parfois limiter cet effet. PAVLOV reste quatrième et semble
+  plus stable que TIT-FOR-TAT. ALL-C reste dernière, car elle continue de
+  coopérer face aux défections. 
 
 ### Modification B : horizon inconnu
 
