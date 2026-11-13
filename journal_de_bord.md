@@ -138,6 +138,13 @@ Pour chaque modification, respecter l'ordre : prédiction, exécution, comparais
 
 ### Modification A : bruit
 
+Nous avons choisi de modifier le tournoi avec du bruit car les coups ne sont
+pas toujours exécutés parfaitement dans une situation réelle. Un joueur peut
+vouloir coopérer mais jouer accidentellement `D`, ou vouloir trahir mais jouer
+`C`. Cette modification permet donc de tester la robustesse des stratégies,
+notamment la capacité de TIT-FOR-TAT et de PAVLOV à réagir aux erreurs, tout
+en restant proche du dilemme du prisonnier itéré.
+
 - Paramètres : population étendue, 200 tours par partie, 5 parties par paire,
   bruit de `5 %`, graine `42`.
 - Prédiction avant exécution : le bruit devrait réduire les scores des
