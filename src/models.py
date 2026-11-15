@@ -25,3 +25,11 @@ class PayoffMatrix:
             return self.temptation
         return self.punishment
 
+
+ALTERNATIVE_PAYOFF = PayoffMatrix(
+    reward=4,
+    sucker=0,
+    temptation=6,
+    punishment=1,
+)
+
